@@ -8,7 +8,8 @@ const readAllRequest = require('./functions/readAllRequest');
 
 //DCB Hackathon
 const getAllCustomerDetails = require('./functions/getAllCustomerDetails');
-
+const updateCustomerDetails = require('./functions/updateCustomerDetails');
+const getStatiscialData = require('./functions/getStatiscialData');
 
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -35,6 +36,20 @@ module.exports = router => {
 
     /***********************DCB hackathon code  - START******************************** */
 
+
+    router.get("/getStatiscialData", (req, res) => {
+
+        getStatiscialData.getStatiscialData()
+
+        .then(result => {
+            res.status(200).json({
+                message: result
+
+            })
+        })
+
+    });
+
     router.get("/getAllCustomerDetails", (req, res) => {
 
         getAllCustomerDetails.getAllCustomerDetails()
@@ -47,45 +62,21 @@ module.exports = router => {
         })
 
     });
-    /***********************DCB hackathon code - END************************** */
 
-    //newRequest -  routes user input to function newRequest. 
-    router.post("/newRequest", (req, res) => {
-        console.log("Routing User Input to newRequest Function.....!")
+    router.post("/updateCustomerDetails", (req, res) => {
 
-        var requestid = "";
-        var possible = "012345678998745612301224555285625255846197976487454187454345645432546254624566055862467679762245942418541241840415815920454";
-        for (var i = 0; i < 4; i++)
-            requestid += possible.charAt(Math.floor(Math.random() * possible.length));
+        updateCustomerDetails.updateCustomerDetails()
 
-        // var requestid = crypto.createHash('sha256').update(random_no).digest('base64');
-        console.log("requestid" + requestid);
-        var status = req.body.status;
-        console.log("status" + status);
-        var InvolvedParties = req.body.InvolvedParties;
-        console.log("InvolvedParties" + InvolvedParties);
-        var transactionString = JSON.stringify(req.body.transactionString);
-        console.log("transactionString" + transactionString);
-        if (!transactionString || !transactionString) {
-            res.status(400).json({
-                message: 'Invalid Request'
-            });
-        } else {
+        .then(result => {
+            res.status(200).json({
+                message: result
 
-            newRequest.newRequest(requestid, status, InvolvedParties, transactionString)
-
-            .then(result => {
-                res.status(result.status).json({
-                    message: result.message
-
-                })
             })
+        })
 
-            .catch(err => res.status(err.status).json({
-                message: err.message
-            }));
-        }
     });
+
+    /***********************DCB hackathon code - END************************** */
 
     // updateRequest -  routes user input to function updateRequest.
     router.post("/updateRequest", (req, res) => {
