@@ -10,6 +10,7 @@ const readAllRequest = require('./functions/readAllRequest');
 const getAllCustomerDetails = require('./functions/getAllCustomerDetails');
 const updateCustomerDetails = require('./functions/updateCustomerDetails');
 const getStatiscialData = require('./functions/getStatiscialData');
+const getNotification = require('./functions/getNotification');
 
 const cors = require('cors');
 const nodemailer = require('nodemailer');
@@ -35,6 +36,21 @@ module.exports = router => {
     });
 
     /***********************DCB hackathon code  - START******************************** */
+
+
+    router.get("/getNotification", (req, res) => {
+
+        getNotification.getNotification()
+
+        .then(result => {
+            res.status(200).json({
+                message: result
+
+            })
+        })
+
+    });
+
 
 
     router.get("/getStatiscialData", (req, res) => {
